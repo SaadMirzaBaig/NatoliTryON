@@ -308,7 +308,6 @@
 
 
     </script>
-
     <script>
         async function runWebXRDiagnostic() {
             const debugInfo = [];
@@ -321,32 +320,21 @@
             else if (ua.includes("Firefox")) browser = "Firefox";
             debugInfo.push("Browser: " + browser);
 
-            // Check HTTPS
+            // HTTPS check
             debugInfo.push("Page is secure (HTTPS): " + (location.protocol === "https:"));
 
             // WebXR Support
             const xrSupport = 'xr' in navigator;
-            debugInfo.push("WebXR Supported: " + xrSupport);
+            debugInfo.push("WebXR Supported (API exists): " + xrSupport);
 
-            // Hand Tracking API support
-            let handTrackingSupport = false;
+            // AR Session Supported check
             if (xrSupport) {
                 try {
                     const isSupported = await navigator.xr.isSessionSupported('immersive-ar');
-                    debugInfo.push("AR Session Supported: " + isSupported);
-                    // Check if hand-tracking is supported in features
-                    const session = await navigator.xr.requestSession('immersive-ar', {
-                        requiredFeatures: ['hand-tracking']
-                    });
-                    handTrackingSupport = !!session;
-                    debugInfo.push("Hand Tracking Supported: " + handTrackingSupport);
-                    await session.end();
+                    debugInfo.push("Immersive AR Session Supported: " + isSupported);
                 } catch (e) {
-                    debugInfo.push("Hand Tracking Supported: false (or failed to request)");
+                    debugInfo.push("Immersive AR Session Supported: false (or error)");
                 }
-            } else {
-                debugInfo.push("AR Session Supported: false");
-                debugInfo.push("Hand Tracking Supported: false");
             }
 
             // Camera permission
@@ -357,12 +345,12 @@
                 debugInfo.push("Camera Permission: Unknown or unsupported");
             }
 
-            // Display results in console or DOM
+            // Display in console
             console.group("WebXR Diagnostic");
             debugInfo.forEach(info => console.log(info));
             console.groupEnd();
 
-            // Optional: show on screen
+            // Display on screen
             const panel = document.createElement('div');
             panel.style.cssText = 'position:fixed;top:10px;left:10px;background:#000;color:#0f0;padding:10px;font-size:12px;z-index:9999;font-family:monospace;';
             panel.innerHTML = "<strong>WebXR Diagnostic:</strong><br>" + debugInfo.join('<br>');
@@ -371,6 +359,7 @@
 
         runWebXRDiagnostic();
     </script>
+
 
 </body>
 
