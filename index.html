@@ -80,7 +80,7 @@
                 window.arCamera = new ARCamera(unityCanvas, videoCanvas);
                 window.hTracker = new HandTracker(arCamera);
                 try{
-					var numHands = 2;
+                    var numHands = 2; //<--SET MAX NUMBER OF HANDS
 
                     //initialize using mediapipe CDN
                     // await window.hTracker.initialize(
@@ -88,7 +88,11 @@
                     //     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.6",
                     //     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.6/wasm",
                     //     "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-                    //     numHands);
+                    //     numHands,
+                    //     0.22, //detectConfidence, //detectConfidence, //detectConfidence, //detectConfidence
+                    //     0.22, //presenceConfidence, //presenceConfidence, //presenceConfidence, //presenceConfidence
+                    //     0.22, //trackConfidence, //trackConfidence, //trackConfidence, //trackConfidence
+                    // );
 
                     //initialize locally
                     await window.hTracker.initialize(
@@ -96,7 +100,11 @@
                         "./mediapipe/tasks-vision@0.10.6.js",
                         "./mediapipe/wasm",
                         "./mediapipe/hand_landmarker.task",
-                        numHands);
+                        numHands,
+                        0.22, //detectConfidence, //detectConfidence, //detectConfidence, //detectConfidence
+                        0.22, //presenceConfidence, //presenceConfidence, //presenceConfidence, //presenceConfidence
+                        0.22, //trackConfidence, //trackConfidence, //trackConfidence, //trackConfidence
+                    );
 
                     console.log("HandTracker initialized!");
                 }
